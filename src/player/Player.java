@@ -1,5 +1,7 @@
 package player;
 
+import utils.UserManager;
+
 public class Player {
     private String firstName;
     private String lastName;
@@ -7,17 +9,17 @@ public class Player {
     private String username;
     private String playerID;
     private String email;
-    private String password;
+    private final String passwordHash;
 
 
-    public Player(String firstName, String lastName, boolean useUsername, String username, String playerID, String email, String password){
+    public Player(String firstName, String lastName, boolean useUsername, String username, String playerID, String email, String passwordHash){
             this.firstName = firstName;
             this.lastName = lastName;
             this.useUsername = useUsername;
             this.username = username;
             this.playerID = playerID;
             this.email = email;
-            this.password= password;
+            this.passwordHash = passwordHash;
     }
 
     public String getFirstName() {
@@ -56,5 +58,10 @@ public class Player {
         System.out.println("Last Name: " + lastName);
         System.out.println("Username: " + username);
         System.out.println("Email: " + email);
+    }
+
+    public boolean checkPassword(String attempt){
+        String attemptHash = UserManager.encryptPassword(attempt);
+        return attemptHash.equals(passwordHash);
     }
 }

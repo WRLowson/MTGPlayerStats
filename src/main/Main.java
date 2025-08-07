@@ -3,48 +3,47 @@ package main;
 
 import player.Player;
 import utils.IDUtils;
+import utils.UserUtils;
 
-import java.util.Scanner;
+import static utils.InputUtils.SCANNER;
 
 public class Main {
-    public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) {
+        boolean running = true;
 
-        System.out.println("=== MTG Player Registration ===");
+        while (running) {
+            System.out.println("=== MTG Player Registration ===");
+            System.out.println("1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+            System.out.println("Please, choose an option (1, 2, or 3): ");
+            String input = SCANNER.nextLine();
+            int option;
 
-        System.out.println("First Name: ");
-        String firstName = scanner.nextLine();
+            try {
+                option = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+                continue;
+            }
 
-        System.out.println("Last Name: ");
-        String lastName = scanner.nextLine();
-
-        System.out.println("Use a username instead of your real name? (Yes/No)");
-        boolean useUsername = scanner.nextLine().equalsIgnoreCase("yes");
-
-        String username = null;
-        if(useUsername){
-//            while(true){
-                System.out.print("Enter username: ");
-                username = scanner.nextLine().toLowerCase();
-//                if (UserManager.isUsernameAvailable(username)){
-//                   break;
-//                }
-//                else{
-//                    System.out.println("Username is already taken, please try another.");
-//                }
-//            }
+            switch (option) {
+                case 1:
+                    //Register
+                    Player registeredPlayer = UserUtils.userRegistration();
+                    System.out.println("Registration complete. Welcome to MTG Player Stats!");
+                    break;
+                case 2:
+                    //login
+                    break;
+                case 3:
+                    System.out.println("Goodbye!");
+                    running = false; // Exit loop
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
+            }
         }
-
-        System.out.println("Enter Email: ");
-        String email= scanner.nextLine();
-
-        System.out.println("create a password ");
-        String password = scanner.nextLine();
-
-        String playerID = IDUtils.generateHexPlayerID();
-
-        Player newPlayer = new Player(firstName, lastName, useUsername, username, playerID, email, password);
-        newPlayer.printSummary();
-
     }
 }
